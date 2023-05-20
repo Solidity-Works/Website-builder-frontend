@@ -17,8 +17,6 @@ const App = () => {
     const [pluginLoaded, setPluginLoaded] = useState(false);
     const [editor] = useState(null);
 
-
-
     useEffect(() => {
         if (!pluginLoaded) {
             addTablePlugin();
@@ -31,12 +29,12 @@ const App = () => {
             height: '100vh',
             width: 'auto',
             container: "#g",
-            fromElement: true,
+            fromElement: true,  
             plugins: [gsWebpage, gsCustome, gsTap, TablePluginRef, ChartPluginRef],
             storageManager: {
               type: 'remote',
-              urlStore: 'http://173.249.14.149:3001/api/Dashboards/5ef370de14213070188a41eb/grapes?access_token=B6IES26pZSvpX4J8c8q4wmseASpRtmBOtvXzztH57NDDJXxO94qE7VbtJ7y718GZ',
-              urlLoad: 'http://173.249.14.149:3001/api/Dashboards/5ef370de14213070188a41eb/grapes?access_token=B6IES26pZSvpX4J8c8q4wmseASpRtmBOtvXzztH57NDDJXxO94qE7VbtJ7y718GZ',
+              //urlStore: 'http://173.249.14.149:3001/api/Dashboards/5ef370de14213070188a41eb/grapes?access_token=B6IES26pZSvpX4J8c8q4wmseASpRtmBOtvXzztH57NDDJXxO94qE7VbtJ7y718GZ',
+              //urlLoad: 'http://173.249.14.149:3001/api/Dashboards/5ef370de14213070188a41eb/grapes?access_token=B6IES26pZSvpX4J8c8q4wmseASpRtmBOtvXzztH57NDDJXxO94qE7VbtJ7y718GZ',
               autosave: false,
               autoload: true,
               contentTypeJson: true,
@@ -45,6 +43,17 @@ const App = () => {
               storeStyles: true,
               storeHtml: true,
               storeCss: true,
+            },
+          });
+          editor.Storage.add('remote', {
+            async load() {
+              //return await axios.get(`projects/${projectId}`);
+              return await axios.get('https://database.com/', { headers: {"Authorization" : `Bearer ${JWTToken}`} });
+            },
+          
+            async store(data) {
+              //return await axios.patch(`projects/${projectId}`, { data });
+              return await axios.patch('https://database.com/', { headers: {"Authorization" : `Bearer ${JWTToken}`},"data":data });
             },
           });
         }
