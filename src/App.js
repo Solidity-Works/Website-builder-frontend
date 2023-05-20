@@ -47,13 +47,33 @@ const App = () => {
           });
           editor.Storage.add('remote', {
             async load() {
+              function getCookie(key) {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                  const [name, value] = cookies[i].split('=').map(c => c.trim());
+                  if (name === key) {
+                    return value;
+                  }
+                }
+              }
               //return await axios.get(`projects/${projectId}`);
-              return await axios.get('https://database.com/', { headers: {"Authorization" : `Bearer ${JWTToken}`} });
+              //return await axios.get('https://database.com/', { headers: {"Authorization" : `Bearer ${JWTToken}`} });
+              return await axios.get('https://database.com/', { headers: {"Authorization" : `Bearer ${getCookie("JWTToken")}`} });
             },
           
             async store(data) {
+              function getCookie(key) {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                  const [name, value] = cookies[i].split('=').map(c => c.trim());
+                  if (name === key) {
+                    return value;
+                  }
+                }
+              }
               //return await axios.patch(`projects/${projectId}`, { data });
-              return await axios.patch('https://database.com/', { headers: {"Authorization" : `Bearer ${JWTToken}`},"data":data });
+              //return await axios.patch('https://database.com/', { headers: {"Authorization" : `Bearer ${JWTToken}`},"data":data });
+              return await axios.patch('https://database.com/', { headers: {"Authorization" : `Bearer ${getCookie("JWTToken")}`},"data":data });
             },
           });
         }
